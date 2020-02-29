@@ -11,3 +11,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.my-btn {
+  border: 1px solid gray;
+  border-radius: 0;
+}
+.pink {
+  background: pink;
+}
+.badge {
+  background: #61dafb;
+
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 60px;
+  margin: 10px auto;
+}
+
+.dark {
+  background: #282c34;
+  color: white;
+}
+
+.add-margin {
+  margin: 10px 20px;
+}
+
+.panel {
+  padding: 20px 40px;
+  border: 1px solid gray;
+  color: gray;
+  margin: 20px;
+  width: 60px;
+}
+.hello-world {
+  color: darkred;
+}
+
+.test-2 {
+  color: darkblue;
+  border-color: darkblue;
+}
