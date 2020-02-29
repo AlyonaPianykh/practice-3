@@ -65,5 +65,6 @@ export const user = {
   name: 'Iron',
   lastName: 'Man',
   age: 25,
-  role: 'admin'
+  role: 'admin',
+  avatar: 'https://cdn4.iconfinder.com/data/icons/ironman_lin/512/ironman_III.png'
 };
