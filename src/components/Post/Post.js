@@ -15,7 +15,7 @@ export const Post = props => {
   return (
     <div className={`post card ${styled ? 'styled' : '' }`}>
       <div className="card-img-top">
-        <PostImage src={imgPost}/>
+        <PostImage src={imgPost}/> {/* используем другую компоненту, чтоб создать композицию */}
       </div>
       <div className="card-body">
         <h3>{authorName}</h3>

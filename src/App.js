@@ -66,7 +66,7 @@ function App() {
               {/* todo: использовать Header здесь */}
 
               {renderButton('Sort by author', sortByAuthor, sortingTypes.BY_AUTHOR)}
-              {renderButton('Sort by date', sortByDate, sortingTypes.BY_DATE)}
+              {renderButton('Sort by date', sortByDate, sortingTypes.BY_DATE)} {/* рендерим кнопку с помощью вспомогательной функции */}
               <div className="all-posts">
               {
                 posts.map((post) => {
