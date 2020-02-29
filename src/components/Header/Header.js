@@ -1,6 +1,7 @@
 import React from 'react';
-
 //todo: импортнуть { UserContext, AppConfigContext } из '../../context'
+
+import './Header.scss';
 
 // todo:
 //  1) создать функциональный компонент Header, не забудьте сделать export этого компонента
