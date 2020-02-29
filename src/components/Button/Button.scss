@@ -1,0 +1,16 @@
+.my-btn {
+  &.btn {
+    box-shadow: unset;
+
+    &:focus {
+      box-shadow: unset;
+    }
+  }
+
+  &.btn-primary {
+    &.focus,
+    &:focus {
+      box-shadow: unset;
+    }
+  }
+}
