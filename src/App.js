@@ -3,7 +3,7 @@ import { Post } from './components/Post/Post';
 import { Button } from './components/Button/Button';
 import { sortingTypes, allPosts } from './constants';
 import { SortingContext, ThemeContext } from './context';
-// todo: импортнуть тут ваш созданные компонент { Header } из './components/Header/Header'
+import Header from "./components/Header/Header";
 
 import './App.scss';
 
@@ -20,14 +20,12 @@ function App() {
       }
       return 0;
     });
-    debugger
     callback(sortingTypes.BY_AUTHOR);
     setPosts([...sorted]); // вызываем хук изменения для posts. это вызывает перерендер
   };
 
   const sortByDate = (callback) => {
     const sorted = posts.sort((a, b) => (new Date(a.data) - new Date(b.data)));
-    debugger
     callback(sortingTypes.BY_DATE);
     setPosts([...sorted]); // вызываем хук изменения для posts. это вызывает перерендер
   };
@@ -38,7 +36,6 @@ function App() {
       <SortingContext.Consumer>
         {
           (value) => {
-            debugger
             const { sortType, onSortingChange } = value;
             return (
               <Button
@@ -63,7 +60,7 @@ function App() {
           console.log(value); // достаем значение темы из контекста и используем ниже в className
           return (
             <div className={`App ${value}`}>
-              {/* todo: использовать Header здесь */}
+              <Header/>
 
               {renderButton('Sort by author', sortByAuthor, sortingTypes.BY_AUTHOR)}
               {renderButton('Sort by date', sortByDate, sortingTypes.BY_DATE)} {/* рендерим кнопку с помощью вспомогательной функции */}

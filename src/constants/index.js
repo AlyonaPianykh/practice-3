@@ -39,7 +39,7 @@ export const allPosts = [
   }
 ];
 
-// todo Используйте этот объект, чтоб положить его в AppConfigContext.Provider
+
 export const allLinks = {
   admin: [
     {
@@ -60,7 +60,7 @@ export const allLinks = {
     }
   ]
 };
-// todo Используйте этот объект, чтоб положить его в UserContext.Provider
+
 export const user = {
   name: 'Iron',
   lastName: 'Man',
