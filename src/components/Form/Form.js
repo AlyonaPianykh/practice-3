@@ -22,18 +22,6 @@ export class Form extends Component {
     return null;
   }
 
-  onTitleChange = e => {
-    this.setState({
-      title: e.target.value
-    });
-  };
-
-  onTextChange = e => {
-    this.setState({
-      text: e.target.value
-    });
-  };
-
   onLabelChange = e => {
     const { id } = e.target;
     this.setState({
