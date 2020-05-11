@@ -1,35 +1,63 @@
-import React, { useState } from 'react';
-import {Button} from '../Button/Button';
-import {PostImage} from '../PostImage/PostImage';
-import './Post.scss';
+import React, { useState, PureComponent } from "react";
+import "./Post.scss";
 
-export const Post = props => {
-  const [styled, setStyled] = useState(false);// хук изменения состояния, который вызывает перерендер нашей компоненты если styled меняется
+export class Post extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      styled: false
+    };
+    console.log("constructorPost: " + this.props.post.id);
+  }
 
-  const { post: { imgAuthor, authorName, mood, data, text, imgPost } } = props;
+  componentDidMount() {
+    console.log("Post componentDidMount " + this.props.post.id);
+    // this.interval = setInterval(() => {
+    //   console.log("Hello I'm" + this.props.post.id); }, 3000);
+  }
 
-  const onToggleMeHandler = () => {
-    setStyled(!styled); // вызываем хук изменения для styled. кладем противоположное значение.это вызывает перерендер
+  componentWillUnmount() {
+    // clearInterval(this.interval);
+    console.log("Post componentWillUnmount " + this.props.post.id);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("Post componentDidUpdate" + this.props.post.id);
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return nextProps.post.id !== this.props.post.id;
+  // }
+
+  onToggleMeHandler = () => {
+    this.setState({
+      styled: !this.state.styled
+    });
   };
 
-  return (
-    <div className={`post card ${styled ? 'styled' : '' }`}>
-      <div className="card-img-top">
-        <PostImage src={imgPost}/> {/* используем другую компоненту, чтоб создать композицию */}
-      </div>
-      <div className="card-body">
-        <h3>{authorName}</h3>
-        <p className="text"> {mood} </p>
-        <small className="data">{data}</small>
-      </div>
+  render() {
+    const { post, isClosed } = this.props;
+    const { imgAuthor, authorName, mood, data, text, imgPost } = post;
+    console.log("renderPost:" + this.props.post.id);
 
-      <div className="block1">
-        <p className=" card-text text">{text}</p>
+    return (
+      isClosed || (
+        <div className={`main ${this.state.styled ? "styled" : ""}`}>
+          <div className="block">
+            <img src={imgAuthor} className="img" />
+            <h1>{authorName}</h1>
+            <p className="text"> {mood} </p>
+            <small className="data">{data.toString()}</small>
+          </div>
 
-      </div>
-      <div className="button">
-        <Button  label="Toggle" onClick={onToggleMeHandler} />
-      </div>
-    </div>
-  );
-};
+          <div className="block1">
+            <p className="text">{text}</p>
+            {/*<PostImage src={imgPost} />*/}
+          </div>
+          <div className="button">
+            <button onClick={this.onToggleMeHandler}>Toggle</button>
+          </div>
+        </div>
+      )
+    );
+  }
+}

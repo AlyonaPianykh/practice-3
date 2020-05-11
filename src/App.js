@@ -1,89 +1,140 @@
-import React, { useState } from 'react';
-import { Post } from './components/Post/Post';
-import { Button } from './components/Button/Button';
-import { sortingTypes, allPosts } from './constants';
-import { SortingContext, ThemeContext } from './context';
-// todo: импортнуть тут ваш созданные компонент { Header } из './components/Header/Header'
+import React, { Component } from "react";
+import { Post } from "./components/Post/Post";
+import { Button } from "./components/Button/Button";
+import { allPosts, sortingTypes } from "./constants";
+import { SortingContext, ThemeContext, UserContext } from "./context";
+import Header from "./components/Header/Header";
+import { BtnMenu } from "./components/BtnMenu/BtnMenu";
+import { PostsList } from "./components/PostsList/PostsList";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import { Form } from "./components/Form/Form";
 
-import './App.scss';
+import "./App.scss";
+import { Input } from "./components/Input/Input";
 
-function App() {
-  const [posts, setPosts] = useState(allPosts); // хук изменения состояния, который вызывает перерендер нашей компоненты если posts меняется
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: "",
+      selectedPostId: allPosts[0].id,
+      isPostHidden: false
+    };
+  }
 
-  const sortByAuthor = (callback) => {
-    const sorted = allPosts.sort(function (a, b) {
-      if (a.authorName > b.authorName) {
-        return 1;
-      }
-      if (a.authorName < b.authorName) {
-        return -1;
-      }
-      return 0;
+  hidePost = () => {
+    this.setState({
+      isPostHidden: !this.state.isPostHidden
     });
-    debugger
-    callback(sortingTypes.BY_AUTHOR);
-    setPosts([...sorted]); // вызываем хук изменения для posts. это вызывает перерендер
   };
 
-  const sortByDate = (callback) => {
-    const sorted = posts.sort((a, b) => (new Date(a.data) - new Date(b.data)));
-    debugger
-    callback(sortingTypes.BY_DATE);
-    setPosts([...sorted]); // вызываем хук изменения для posts. это вызывает перерендер
+  saveInputValue = value => {
+    this.setState({
+      ...this.state,
+      inputValue: value
+    });
   };
 
-  const renderButton = (label, onClick, sortCondition) => {
+  renderButton = (label, onClick, sortCondition) => {
     return (
-      // достаем вид сортировки и callback для изменения вида сортировки из контекста
       <SortingContext.Consumer>
-        {
-          (value) => {
-            debugger
-            const { sortType, onSortingChange } = value;
-            return (
-              <Button
-                className={`btn ${sortType === sortCondition ? 'btn-styled' : ''}`}
-                label={label}
-                onClick={() => {
-                  // здесь используем переданный для кнопки onClick, и передаем в него callback - onSortingChange,
-                  // который прилетает из контекста
-                  onClick(onSortingChange);
-                }}/>
-            );
-          }
-        }
+        {value => {
+          const { sortType } = value;
+          return (
+            <Button
+              className={`btn ${
+                sortType === sortCondition ? "btn-styled" : ""
+              }`}
+              label={label}
+              onClick={() => {
+                onClick(sortCondition);
+              }}
+            />
+          );
+        }}
       </SortingContext.Consumer>
     );
   };
+  onPostSelect = postId => {
+    this.setState({
+      selectedPostId: postId
+    });
+  };
 
-  return (
-    <ThemeContext.Consumer>
-      {
-        (value) => {
-          console.log(value); // достаем значение темы из контекста и используем ниже в className
-          return (
-            <div className={`App ${value}`}>
-              {/* todo: использовать Header здесь */}
+  render() {
+    return (
+      <SortingContext.Consumer>
+        {sortConfig => {
+          const { sortType, onSortingChange, posts, addPost } = sortConfig;
 
-              {renderButton('Sort by author', sortByAuthor, sortingTypes.BY_AUTHOR)}
-              {renderButton('Sort by date', sortByDate, sortingTypes.BY_DATE)} {/* рендерим кнопку с помощью вспомогательной функции */}
-              <div className="all-posts">
-              {
-                posts.map((post) => {
-                  return (
-                    <Post post={post} key={post.id}/>
-                  );
-                })
-              }
-              </div>
-            </div>
+          const { selectedPostId } = this.state;
+          const neededIndex = posts.findIndex(
+            item => item.id === selectedPostId
           );
-        }
-      }
-
-    </ThemeContext.Consumer>
-  );
+          return (
+            <ThemeContext.Consumer>
+              {value => {
+                console.log(value); // достаем значение темы из контекста и используем ниже в className
+                return (
+                  <div className={`App ${value}`}>
+                    <Header />
+                    <PostsList posts={posts} onPostSelect={this.onPostSelect} />
+                    <Input
+                      value={this.state.inputValue}
+                      onValueChange={this.saveInputValue}
+                    />
+                    <p>{this.state.inputValue}</p>
+                    <BtnMenu
+                      options={Object.keys(sortingTypes)}
+                      onSortingChange={onSortingChange}
+                    />
+                    {this.renderButton(
+                      "Sort by author",
+                      onSortingChange,
+                      sortingTypes.BY_AUTHOR
+                    )}
+                    {this.renderButton(
+                      "Sort by date",
+                      onSortingChange,
+                      sortingTypes.BY_DATE
+                    )}{" "}
+                    {/* рендерим кнопку с помощью вспомогательной функции */}
+                    <ErrorBoundary>
+                      <div>
+                        <Button label="HIDE POST!" onClick={this.hidePost} />
+                        {!this.state.isPostHidden &&
+                          neededIndex !== -1 && (
+                            <Post post={posts[neededIndex]} />
+                          )}
+                        <UserContext.Consumer>
+                          {({ user }) => (
+                            <Form
+                              addPost={addPost}
+                              user={user}
+                              post={posts[neededIndex]}
+                            />
+                          )}
+                        </UserContext.Consumer>
+                      </div>
+                    </ErrorBoundary>
+                    {/*<div className="all-posts">*/}
+                    {/*  {*/}
+                    {/*    posts.map((post) => {*/}
+                    {/*      return (*/}
+                    {/*        <Post post={post} key={post.id}/>*/}
+                    {/*      );*/}
+                    {/*    })*/}
+                    {/*  }*/}
+                    {/*</div>*/}
+                  </div>
+                );
+              }}
+            </ThemeContext.Consumer>
+          );
+        }}
+      </SortingContext.Consumer>
+    );
+  }
 }
-
 
 export default App;

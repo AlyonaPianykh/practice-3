@@ -3,9 +3,16 @@ export const sortingTypes = {
   BY_DATE: 'BY_DATE',
   BY_DEFAULT: 'BY_DEFAULT'
 };
+export const sortingTitle = {
+  BY_AUTHOR: 'By author',
+  BY_DATE: 'By date',
+  BY_DEFAULT: 'By default'
+};
+
 export const allPosts = [
   {
     id: 'fdsfs',
+    title:"apple1",
     authorName: 'Maria Negrych',
     data: '02/17/2020',
     mood: 'почувається натхненно',
@@ -14,6 +21,7 @@ export const allPosts = [
     imgPost: undefined
   }, {
     id: 'frjegkhre',
+    title:"apple2",
     authorName: 'Maria Negrych',
     data: '02/13/2020',
     mood: 'почувається вмотивовано',
@@ -22,6 +30,7 @@ export const allPosts = [
     imgPost: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Colorful_spring_garden.jpg/1200px-Colorful_spring_garden.jpg'
   }, {
     id: 'gfhvhdfhjd',
+    title:"apple3",
     authorName: 'Uncle Bob',
     data: '02/20/2020',
     mood: 'почувається вмотивовано',
@@ -30,6 +39,7 @@ export const allPosts = [
     imgPost: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Colorful_spring_garden.jpg/1200px-Colorful_spring_garden.jpg'
   }, {
     id: 'frgregevfdhb',
+    title:"apple4",
     authorName: 'Iron Man',
     data: '01.10.2020',
     mood: 'почувається вмотивовано',
@@ -39,7 +49,7 @@ export const allPosts = [
   }
 ];
 
-// todo Используйте этот объект, чтоб положить его в AppConfigContext.Provider
+
 export const allLinks = {
   admin: [
     {
@@ -60,7 +70,7 @@ export const allLinks = {
     }
   ]
 };
-// todo Используйте этот объект, чтоб положить его в UserContext.Provider
+
 export const user = {
   name: 'Iron',
   lastName: 'Man',
